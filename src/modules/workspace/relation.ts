@@ -80,7 +80,7 @@ export function registerNoteRelation() {
           if (ev.data.type === "openNote") {
             addon.hooks.onOpenNote(
               ev.data.id,
-              ev.data.isShift ? "window" : "tab",
+              ev.data.isShift ? "preview" : "builtin",
             );
           }
         });

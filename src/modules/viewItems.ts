@@ -18,7 +18,7 @@ export function patchViewItems(win: _ZoteroTypes.MainWindow) {
           if (item.isNote()) {
             addon.hooks.onOpenNote(
               item.id,
-              getPref("openNote.defaultAsWindow") ? "window" : "tab",
+              getPref("openNote.defaultAsWindow") ? "preview" : "builtin",
             );
             continue;
           }

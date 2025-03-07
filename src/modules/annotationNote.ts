@@ -26,7 +26,7 @@ function registerReaderAnnotationButton() {
               createNoteFromAnnotation(
                 reader._item.libraryID,
                 annotationData.id,
-                (e as MouseEvent).shiftKey ? "window" : "builtin",
+                (e as MouseEvent).shiftKey ? "preview" : "builtin",
               );
               button.innerHTML = getAnnotationNoteButtonInnerHTML(true);
               e.preventDefault();
@@ -110,7 +110,7 @@ async function hasNoteFromAnnotation(
 async function createNoteFromAnnotation(
   libraryID: number,
   itemKey: string,
-  openMode: "window" | "builtin" | undefined,
+  openMode: "preview" | "builtin" | undefined,
 ) {
   const annotationItem = Zotero.Items.getByLibraryAndKey(
     libraryID,
@@ -127,7 +127,7 @@ async function createNoteFromAnnotation(
     if (linkRegex.test(tag)) {
       const linkParams = getNoteLinkParams(tag);
       if (linkParams.noteItem && linkParams.noteItem.isNote()) {
-        addon.hooks.onOpenNote(linkParams.noteItem.id, openMode || "tab", {
+        addon.hooks.onOpenNote(linkParams.noteItem.id, openMode || "builtin", {
           lineIndex: linkParams.lineIndex || undefined,
         });
         // Remove deprecated link tag and create a link in IndexedDB

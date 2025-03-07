@@ -24,7 +24,7 @@ function parseHTMLLines(html: string): string[] {
   let selfInlineFlag = false;
 
   const parsedLines = [];
-  for (const line of noteLines) {
+  for (let line of noteLines) {
     // restore self inline flag
     selfInlineFlag = false;
 
@@ -87,6 +87,12 @@ function parseHTMLLines(html: string): string[] {
         if (nextLine) {
           nextLine += "\n";
         }
+        
+        // 箇条書きの変換を行う
+        if (line.startsWith('* ')) {
+          line = line.replace(/^\* /, '- ');
+        }
+        
         nextLine += `${line}`;
         parsedLines.push(nextLine);
       }

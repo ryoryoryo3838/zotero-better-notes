@@ -157,7 +157,7 @@ async function renderSection(
     const note = (doc as any).createXULElement("toolbarbutton");
     note.addEventListener("command", (event: MouseEvent) => {
       const position = event.shiftKey ? "window" : "tab";
-      addon.hooks.onOpenNote(targetItem.id, position, linkParams);
+      addon.hooks.onOpenNote(targetItem.id, position === "window" ? "preview" : "builtin", linkParams);
     });
     note.className = "zotero-clicky zotero-clicky-open-link";
     note.setAttribute("tabindex", "0");

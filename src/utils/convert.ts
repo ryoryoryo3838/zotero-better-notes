@@ -19,6 +19,7 @@ import { visitParents } from "unist-util-visit-parents";
 import rehypeFormat from "rehype-format";
 import { h } from "hastscript";
 import YAML = require("yamljs");
+const TurndownService = require('turndown');
 
 import { Root as HRoot, RootContent } from "hast";
 import { ListContent, Root as MRoot, TableContent } from "mdast";
@@ -246,12 +247,18 @@ async function md2html(md: string) {
 }
 
 async function html2md(html: string) {
-  const rehype = note2rehype(html);
-  const remark = await rehype2remark(rehype as HRoot);
-  if (!remark) {
+  const turndownService = new TurndownService({
+    headingStyle: "atx",
+    bulletListMarker: "-", // 箇条書きのマーカーを'-'に設定
+    codeBlockStyle: "fenced",
+  });
+  
+  const remark = turndownService.turndown(html);
+  const rehype = await remark2rehype(remark);
+  if (!rehype) {
     return "Parsing Error: HTML2MD";
   }
-  const md = remark2md(remark as MRoot);
+  const md = remark2md(rehype as MRoot);
   return md;
 }
 
